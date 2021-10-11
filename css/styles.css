@@ -1,0 +1,28 @@
+:root {
+    --white: #9aa0ac;
+    --black: #25282d;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    outline: none;
+}
+
+body {
+    width: 80%;
+    margin: auto auto;
+    text-align: center;
+    background: var(--black); 
+    font-family: 'Open Sans', sans-serif;
+    font-size: 18px;
+    color: var(--white);
+}
+
+/* Typography*/
+
+
+
+
+
+
