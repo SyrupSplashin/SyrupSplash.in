@@ -4,22 +4,54 @@
 }
 
 * {
+    box-sizing: border-box
+}
+
+img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+}
+
+html {
     margin: 0;
     padding: 0;
-    outline: none;
 }
 
 body {
-    width: 80%;
-    margin: auto auto;
-    text-align: center;
-    background: var(--black); 
+    margin: 0 auto;
+    padding: 0;
+    width: 75%;
+    background: url(../images/topography.svg);
+    background-color: #24252a;
     font-family: 'Open Sans', sans-serif;
-    font-size: 18px;
-    color: var(--white);
 }
 
-/* Typography*/
+.container {
+    height: 100vh;
+    padding: 10vh 0;
+}
+
+.flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.column {
+    flex-direction: column;
+}
+
+
+.icons {
+    justify-content: space-between;
+}
+
+.fab {
+    color: white;
+    font-size: 2rem;
+    margin: 0 25px;
+}
 
 
 
