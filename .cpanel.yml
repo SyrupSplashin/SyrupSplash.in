@@ -1,6 +1,0 @@
----
-deployment:
-  tasks:
-    - export DEPLOYPATH=/home/syrupspl/public_html/
-    - index.html $DEPLOYPATH
-    - style.css $DEPLOYPATH/css
