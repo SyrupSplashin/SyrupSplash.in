@@ -54,6 +54,7 @@ body {
     min-width: 0;
     min-height: 0;
     filter: none;
+    margin: auto;
 }
 
 nav,
