@@ -108,4 +108,13 @@ nav a {
     }
 }
 
+@media (prefers-color-scheme: light) {
+    html {
+        filter: invert(1)
+    }
+    .container {
+        backdrop-filter: blur(3px);
+    }
+}
+
 
