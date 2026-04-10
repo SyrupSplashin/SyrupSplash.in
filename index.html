@@ -1,35 +1,96 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SyrupSplashin</title>
-    <link href="css/styles.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="icon" href="/images/Swoup.png">
-    <link rel="me" href="https://mastodon.social/@SyrupSplashin">
-    <link rel="me" href="https://infosec.exchange/@syrupsplashin">
+
+    <link rel="icon" href="/images/Swoup.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <link href="css/styles.css" rel="stylesheet" />
+
+    <meta name="description" content="SyrupSplashin — links, socials, and vibes." />
+    <meta property="og:title" content="SyrupSplashin" />
+    <meta property="og:description" content="Links, socials, and vibes." />
+    <meta property="og:image" content="/images/Swoup.png" />
+    <meta name="theme-color" content="#0b0b12" />
+
+    <link rel="me" href="https://mastodon.social/@SyrupSplashin" />
+    <link rel="me" href="https://infosec.exchange/@syrupsplashin" />
 </head>
 
 <body>
-    <main>
-        <div class="container">
-            <div id="swoup" data-tilt data-tilt-full-page-listening data-tilt-max="8" gyroscopeMinAngleX="-25" gyroscopeMinAngleY="-25" gyroscopeMaxAngleX="25" gyroscopeMinAngleY="25">
-                <img src="images/Swoup.png">
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="https://www.instagram.com/syrupsplashin/" target="_blank" class="button">Instagram</a></li>
-                    <li><a href="https://www.discordapp.com/users/143169985844477952" target="_blank" class="button">Discord</a></li>
-                    <li><a href="https://steamcommunity.com/id/Tryptophany" target="_blank" class="button">Steam</a></li>
-                    <li><a href="https://www.reddit.com/user/Tryptophany" target="_blank" class="button">Reddit</a></li>
-                    <li><a href="https://github.com/SyrupSplashin" target="_blank" class="button">Github</a></li>
-                </ul>
-            <nav>
-        </div>
-    </main>
-</body>
-<script type="text/javascript" src="node_modules/vanilla-tilt/lib/vanilla-tilt.js"></script>
+    <canvas id="bg" aria-hidden="true"></canvas>
+    <div class="noise" aria-hidden="true"></div>
+    <div class="crt" aria-hidden="true"></div>
 
+    <main class="tui" aria-label="SyrupSplashin terminal">
+        <section class="pane" role="region" aria-label="Terminal panel">
+            <header class="pane-head">
+                <div class="dots" aria-hidden="true">
+                    <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                </div>
+                <div class="titlebar">syrupsplashin@localhost:~</div>
+                <div class="status" aria-hidden="true"></div>
+            </header>
+
+            <div class="pane-body">
+                <div class="promptline">
+                    <span class="ps1">➜</span>
+                    <span class="cwd">~</span>
+                    <span class="cmd">whoami</span>
+                    <span class="cursor" aria-hidden="true">█</span>
+                </div>
+
+                <div class="outputline" aria-label="Command output">
+                    <span class="out">SyrupSplashin</span>
+                </div>
+
+                <div class="printout" aria-label="Printed image output">
+                    <div class="promptline faint" aria-hidden="true">
+                        <span class="ps1">➜</span>
+                        <span class="cwd">~</span>
+                        <span class="cmd">cat swoup.png</span>
+                    </div>
+                    <div class="paper">
+                        <img class="sig-img" src="images/Swoup.png" alt="Swoup" />
+                    </div>
+                </div>
+
+                <nav class="menu" aria-label="Links">
+                    <a class="item" href="https://www.instagram.com/syrupsplashin/" target="_blank" rel="noreferrer">
+                        <span class="k">01</span><span class="name">Instagram</span><span class="hint">/ig</span>
+                    </a>
+                    <a class="item" href="https://www.discordapp.com/users/143169985844477952" target="_blank" rel="noreferrer">
+                        <span class="k">02</span><span class="name">Discord</span><span class="hint">/dc</span>
+                    </a>
+                    <a class="item" href="https://steamcommunity.com/id/Tryptophany" target="_blank" rel="noreferrer">
+                        <span class="k">03</span><span class="name">Steam</span><span class="hint">/st</span>
+                    </a>
+                    <a class="item" href="https://www.reddit.com/user/Tryptophany" target="_blank" rel="noreferrer">
+                        <span class="k">04</span><span class="name">Reddit</span><span class="hint">/rd</span>
+                    </a>
+                    <a class="item" href="https://github.com/SyrupSplashin" target="_blank" rel="noreferrer">
+                        <span class="k">05</span><span class="name">GitHub</span><span class="hint">/gh</span>
+                    </a>
+                </nav>
+
+                <div class="foot">
+                    <span class="meta">TAB: focus • ENTER: open • ESC: blur</span>
+                    <span class="meta right"></span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script type="module" src="js/main.js"></script>
+</body>
 </html>
