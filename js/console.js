@@ -1,12 +1,12 @@
 /* ==========================================================================
    Weightless Levitation & Perimeter-Light Kinetic Engine
    - Drives continuous multi-harmonic 3D floating on the Swoup emblem + shadow
-   - Drives a bespoke kinetic sculpture animation on the 5 sharp-cornered
-     obsidian links:
+   - Drives a clean, level kinetic sculpture animation on the 5 sharp-cornered
+     obsidian links (no button tilting):
      1. Exact-aspect-ratio SVG perimeter light filament orbiting all 4 sharp
         edges at constant physical velocity
      2. Real-time interior glass light cast from the moving perimeter light tip
-     3. Light-weighted 3D gyroscopic tilt + Z-depth breathing
+     3. Calm, flat planar Z-depth breathing & clean elevation on hover
      4. Out-of-phase floating architectural echo frame breathing behind in Z
      5. Hover lock-in: elevates cleanly off its echo frame while the warm
         perimeter light smoothly expands to enclose all 4 edges
@@ -252,19 +252,12 @@ window.SyrupOS = window.SyrupOS || {};
                 el.style.setProperty('--orbit-x', `${pt.x.toFixed(1)}%`);
                 el.style.setProperty('--orbit-y', `${pt.y.toFixed(1)}%`);
 
-                // 3. Light-weighted 3D gyroscopic tilt + calm Z-depth breathing
-                const lightNx = (pt.x - 50) / 50;
-                const lightNy = (pt.y - 50) / 50;
-                const calmFactor = 1 - Math.min(1, hs) * 0.72;
-
-                const gyroPitch = (-lightNy * 4.4 * calmFactor) * motion;
-                const gyroRoll = (lightNx * 4.8 * calmFactor) * motion;
-                const depthBreath = Math.sin(timeSec * 0.95 + ks.breathPhase) * 9.0 * motion;
+                // 3. Calm, flat planar breathing (zero button tilting on desktop or mobile)
+                const depthBreath = Math.sin(timeSec * 0.95 + ks.breathPhase) * 8.0 * motion;
+                const subtleFloatY = Math.sin(timeSec * 0.95 + ks.breathPhase) * 2.2 * motion;
 
                 let targetMagX = 0;
                 let targetMagY = 0;
-                let cursorTiltX = 0;
-                let cursorTiltY = 0;
 
                 if (this.pointerTarget.active) {
                     const rect = ks.slot.getBoundingClientRect();
@@ -282,10 +275,8 @@ window.SyrupOS = window.SyrupOS || {};
                     el.style.setProperty('--spot-alpha', prox.toFixed(3));
 
                     if (ks.hovered) {
-                        targetMagX = Math.max(-5, Math.min(5, dx * 0.07));
-                        targetMagY = Math.max(-4, Math.min(4, dy * 0.09));
-                        cursorTiltY = (dx / (rect.width * 0.5)) * 5.0;
-                        cursorTiltX = -(dy / (rect.height * 0.5)) * 5.0;
+                        targetMagX = Math.max(-4, Math.min(4, dx * 0.05));
+                        targetMagY = Math.max(-3, Math.min(3, dy * 0.06));
                     }
                 } else {
                     el.style.setProperty('--spot-alpha', '0');
@@ -295,25 +286,22 @@ window.SyrupOS = window.SyrupOS || {};
                 ks.magX += (targetMagX - ks.magX) * magLerp;
                 ks.magY += (targetMagY - ks.magY) * magLerp;
 
-                const zMain = 8 + depthBreath + hs * 22;
-                const finalPitch = gyroPitch + cursorTiltX * Math.min(1, hs);
-                const finalRoll = gyroRoll + cursorTiltY * Math.min(1, hs);
+                const zMain = 8 + depthBreath + hs * 20;
+                const yMain = subtleFloatY - hs * 3.5 + ks.magY;
 
                 el.style.transform =
-                    `translate3d(${ks.magX.toFixed(2)}px, ${ks.magY.toFixed(2)}px, ${zMain.toFixed(2)}px) ` +
-                    `rotateX(${finalPitch.toFixed(2)}deg) rotateY(${finalRoll.toFixed(2)}deg)`;
+                    `translate3d(${ks.magX.toFixed(2)}px, ${yMain.toFixed(2)}px, ${zMain.toFixed(2)}px)`;
 
-                // 4. Floating double-plane echo frame breathing out-of-phase deeper in Z-space
+                // 4. Floating double-plane echo frame breathing flat & out-of-phase behind in Z-space
                 if (ks.echoEl) {
-                    const echoOffsetX = (-lightNx * 4.2 - ks.magX * 0.5) * motion;
-                    const echoOffsetY = (-lightNy * 3.8 - ks.magY * 0.5) * motion;
-                    const echoScaleX = 0.97 + Math.cos(timeSec * 0.95 + ks.breathPhase) * 0.025 + hs * 0.06;
-                    const echoScaleY = 0.94 + Math.cos(timeSec * 0.95 + ks.breathPhase) * 0.04 + hs * 0.14;
+                    const echoOffsetX = (-ks.magX * 0.45) * motion;
+                    const echoOffsetY = (-subtleFloatY * 0.75 - ks.magY * 0.45) * motion;
+                    const echoScaleX = 0.98 + Math.cos(timeSec * 0.95 + ks.breathPhase) * 0.018 + hs * 0.05;
+                    const echoScaleY = 0.95 + Math.cos(timeSec * 0.95 + ks.breathPhase) * 0.03 + hs * 0.12;
                     const echoZ = -18 - hs * 10;
 
                     ks.echoEl.style.transform =
                         `translate3d(${echoOffsetX.toFixed(2)}px, ${echoOffsetY.toFixed(2)}px, ${echoZ.toFixed(2)}px) ` +
-                        `rotateX(${(gyroPitch * 0.55).toFixed(2)}deg) rotateY(${(gyroRoll * 0.55).toFixed(2)}deg) ` +
                         `scale(${echoScaleX.toFixed(4)}, ${echoScaleY.toFixed(4)})`;
                     ks.echoEl.style.borderColor = hs > 0.15
                         ? `rgba(255, 206, 148, ${(0.18 + hs * 0.34).toFixed(3)})`
