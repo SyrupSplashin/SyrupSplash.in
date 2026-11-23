@@ -1,126 +1,429 @@
+/* ==========================================================================
+   SyrupSplash.in — Sculptural Warm Obsidian Minimalism
+   Intellectual · Modern · Simple · Sharp Squared-Corner Monoliths
+   ========================================================================== */
+
 :root {
-    --moreblack: rgba(0, 0, 0, 0.2);
-    --moreblackplus: rgba(0, 0, 0, 0.3);
-    --black: #18191d;
+    --obsidian-void: #08080a;
+    --warm-ivory: #f5ede2;
+    --warm-sand: #e6d2b8;
+    --warm-tungsten: #f7ba74;
+    --warm-amber: #dd8842;
+
+    --text-primary: rgba(244, 234, 222, 0.9);
+    --text-muted: rgba(232, 214, 192, 0.58);
+
+    --font-main: 'Space Grotesk', system-ui, -apple-system, sans-serif;
 }
 
-/* Gotta-Do-Em's */
-
-* {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-img {
-    max-width: 100%;
-    max-height: 100%;
-    display: block;
-}
-
-/* Layout */
-
+html,
 body {
-    font-family: 'Roboto', sans-serif;
-    font-size: 1.5vh;
-    margin: 0;
-    max-width: 100%;
-    background-image: url(../images/topography.svg);
-    background-color: var(--black);
-    overflow: hidden;
-}
-
-.container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-
-    width: 90vw;
-    height: 90dvh;
-    margin: 5vh 5vw;
-    padding: 5vh 5vw;
-    background: var(--moreblack);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.4);
-    outline: 10px solid var(--moreblack);
-}
-
-/* Elements */
-
-#swoup {
-    max-width: 100%;
-    max-height: 100%;
-    min-width: 0;
-    min-height: 0;
-    filter: none;
-}
-
-#swoup img {
-	margin: auto
-}
-
-nav,
-nav ul,
-nav li {
     width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--obsidian-void);
+    color: var(--text-primary);
+    font-family: var(--font-main);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    user-select: none;
 }
 
-nav ul {
-    list-style: none;
-    margin-top: 2rem;
+/* ==========================================================================
+   Background: Living Topographic Relief + Subtle Tactile Atmosphere
+   ========================================================================== */
+
+#topo-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100dvh;
+    z-index: 0;
+    display: block;
+}
+
+.atmosphere-vignette {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+        radial-gradient(56% 52% at 50% 45%, rgba(255, 186, 114, 0.045) 0%, rgba(12, 11, 12, 0.16) 54%, rgba(6, 6, 8, 0.82) 100%);
+}
+
+.atmosphere-grain {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.028;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+}
+
+/* ==========================================================================
+   Open Floating 3D Stage
+   ========================================================================== */
+
+#stage {
+    position: relative;
+    z-index: 2;
+    width: 100vw;
+    height: 100dvh;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    gap: clamp(28px, 5.2vh, 56px);
+    padding: clamp(24px, 5vh, 64px) clamp(20px, 5vw, 64px);
+    perspective: 1400px;
+    perspective-origin: 50% 46%;
 }
 
-nav li:first-child a {
-    margin-left: 0;
+/* ==========================================================================
+   Freely Floating Sculptural Emblem
+   ========================================================================== */
+
+#emblem-wrap {
+    position: relative;
+    flex: 0 1 auto;
+    width: min(460px, 78vw, 52dvh);
+    height: min(460px, 78vw, 52dvh);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform-style: preserve-3d;
+    will-change: transform, opacity;
+    transition: opacity 1.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-nav li:last-child a {
-    margin-right: 0
+body.is-booting #emblem-wrap {
+    opacity: 0;
 }
 
-nav a {
-    text-decoration: none;
-    font-weight: 600;
-    letter-spacing: 0.15em;
+#emblem-shadow {
+    position: absolute;
+    bottom: -10%;
+    left: 50%;
+    width: 66%;
+    height: 18%;
+    border-radius: 50%;
+    pointer-events: none;
+    background:
+        radial-gradient(ellipse at center, rgba(246, 174, 96, 0.22) 0%, rgba(210, 118, 48, 0.08) 42%, rgba(0, 0, 0, 0.55) 72%, transparent 100%);
+    filter: blur(22px);
+    transform: translate3d(-50%, 0, -90px);
+    will-change: transform, opacity;
 }
 
-.button {
-    text-transform: uppercase;
+#emblem-canvas {
+    position: relative;
+    width: 100%;
+    height: 100%;
     display: block;
-    padding: 0.75em;
-    margin: 1vh 0;
-    background-color: var(--moreblackplus);
-    color: rgb(212, 220, 220);
-    text-align: center;
-    backdrop-filter: blur(6px);
+    transform: translateZ(24px);
+    cursor: default;
 }
 
-@media (orientation: landscape) {
-    nav ul {
+.emblem-fallback {
+    max-width: 78%;
+    max-height: 78%;
+    filter: sepia(0.28) brightness(1.04) drop-shadow(0 0 28px rgba(247, 186, 116, 0.38));
+}
+
+/* ==========================================================================
+   5 Sleek Squared-Corner Monolith Links (Original Compact Proportions)
+   Orbital Perimeter Filament + Light-Weighted 3D Tilt + Echo Frame
+   ========================================================================== */
+
+#dock {
+    width: min(820px, 90vw);
+    flex-shrink: 0;
+    transform-style: preserve-3d;
+    perspective: 1100px;
+}
+
+.dock-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: clamp(10px, 1.5vw, 18px);
+    width: 100%;
+    transform-style: preserve-3d;
+}
+
+.dock-slot {
+    position: relative;
+    width: 100%;
+    transform-style: preserve-3d;
+}
+
+/* Floating Architectural Echo Frame suspended behind each button in Z-space */
+.key-echo {
+    position: absolute;
+    inset: 0;
+    border-radius: 0;
+    border: 1px solid rgba(255, 206, 152, 0.14);
+    background: radial-gradient(circle at 50% 50%, rgba(242, 162, 82, 0.045), transparent 72%);
+    pointer-events: none;
+    will-change: transform, opacity, border-color;
+    transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease;
+}
+
+body.is-booting .key-echo,
+body.is-booting .dock-key {
+    opacity: 0;
+}
+
+/* Sleek Compact Squared-Corner Obsidian Button */
+.dock-key {
+    --orbit-x: 50%;
+    --orbit-y: 0%;
+    --spot-x: 50%;
+    --spot-y: 50%;
+    --spot-alpha: 0;
+
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 16px;
+    border-radius: 0;
+    text-decoration: none;
+    color: var(--text-primary);
+    background:
+        linear-gradient(165deg, rgba(22, 20, 24, 0.68) 0%, rgba(11, 10, 13, 0.8) 100%);
+    box-shadow:
+        0 18px 36px -16px rgba(0, 0, 0, 0.88),
+        0 0 22px -12px rgba(247, 182, 108, 0.18);
+    backdrop-filter: blur(14px) saturate(112%);
+    -webkit-backdrop-filter: blur(14px) saturate(112%);
+    overflow: hidden;
+    will-change: transform, box-shadow;
+    transition:
+        background 0.36s ease,
+        box-shadow 0.4s ease,
+        opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+    outline: none;
+}
+
+/* Dynamic Interior Warm Light Cast Directly from the Moving Perimeter Filament */
+.key-orbit-glow {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(130px circle at var(--orbit-x) var(--orbit-y),
+            rgba(255, 206, 146, 0.2) 0%,
+            rgba(232, 146, 68, 0.065) 42%,
+            transparent 76%);
+}
+
+/* Shared-Coordinate Warm Proximity Spotlight from Pointer */
+.key-spotlight {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: var(--spot-alpha);
+    background: radial-gradient(150px circle at var(--spot-x) var(--spot-y),
+            rgba(255, 224, 182, 0.2) 0%,
+            rgba(236, 156, 78, 0.055) 48%,
+            transparent 76%);
+    transition: opacity 0.25s ease;
+}
+
+/* Exact-Fit Sharp 90-Degree SVG Perimeter Trace */
+.key-frame {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: visible;
+}
+
+.frame-base {
+    fill: none;
+    stroke: rgba(255, 214, 168, 0.12);
+    stroke-width: 1;
+}
+
+.frame-trail {
+    fill: none;
+    stroke: rgba(247, 186, 114, 0.68);
+    stroke-width: 1.35;
+    stroke-linecap: square;
+    filter: drop-shadow(0 0 4px rgba(247, 178, 96, 0.55));
+    transition: stroke 0.35s ease;
+}
+
+.frame-head {
+    fill: none;
+    stroke: rgba(255, 242, 222, 0.96);
+    stroke-width: 1.75;
+    stroke-linecap: square;
+    filter: drop-shadow(0 0 6px rgba(255, 214, 160, 0.92));
+}
+
+.key-icon {
+    position: relative;
+    z-index: 1;
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+    color: var(--warm-sand);
+    opacity: 0.8;
+    filter: drop-shadow(0 0 6px rgba(247, 184, 112, 0.28));
+    transition:
+        color 0.3s ease,
+        opacity 0.3s ease,
+        transform 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+        filter 0.3s ease;
+}
+
+.key-icon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.key-label {
+    position: relative;
+    z-index: 1;
+    font-size: clamp(11.5px, 1.02vw, 13px);
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(242, 230, 216, 0.82);
+    white-space: nowrap;
+    transition:
+        color 0.3s ease,
+        letter-spacing 0.36s cubic-bezier(0.22, 1, 0.36, 1),
+        text-shadow 0.3s ease;
+}
+
+/* Hover / Focus Architectural Lock-In State */
+.dock-key:hover,
+.dock-key:focus-visible,
+.dock-key.is-hot {
+    background:
+        linear-gradient(165deg, rgba(34, 30, 34, 0.86) 0%, rgba(16, 14, 18, 0.92) 100%);
+    box-shadow:
+        0 24px 46px -16px rgba(0, 0, 0, 0.94),
+        0 0 34px -8px rgba(247, 182, 108, 0.36),
+        0 0 68px -20px rgba(221, 136, 66, 0.22);
+}
+
+.dock-key:hover .frame-trail,
+.dock-key:focus-visible .frame-trail,
+.dock-key.is-hot .frame-trail {
+    stroke: rgba(255, 226, 184, 0.94);
+}
+
+.dock-key:hover .key-icon,
+.dock-key:focus-visible .key-icon,
+.dock-key.is-hot .key-icon {
+    color: #fff5e6;
+    opacity: 1;
+    transform: scale(1.07);
+    filter: drop-shadow(0 0 10px rgba(255, 200, 132, 0.82));
+}
+
+.dock-key:hover .key-label,
+.dock-key:focus-visible .key-label,
+.dock-key.is-hot .key-label {
+    color: #fff6ea;
+    letter-spacing: 0.17em;
+    text-shadow: 0 0 16px rgba(255, 196, 128, 0.45);
+}
+
+.dock-key.is-flash {
+    box-shadow:
+        0 0 44px rgba(255, 214, 158, 0.72),
+        0 0 84px rgba(235, 152, 74, 0.4) !important;
+}
+
+/* ==========================================================================
+   Responsive Refinements
+   ========================================================================== */
+
+@media (max-width: 820px) {
+    #dock {
+        width: min(680px, 92vw);
+    }
+
+    .dock-key {
+        flex-direction: column;
+        gap: 6px;
+        padding: 12px 10px;
+    }
+
+    .key-label {
+        font-size: 10.5px;
+        letter-spacing: 0.12em;
+    }
+}
+
+@media (max-width: 600px),
+(orientation: portrait) and (max-width: 720px) {
+    #stage {
+        gap: clamp(20px, 3.6vh, 34px);
+        padding: 20px 18px 26px;
+    }
+
+    #emblem-wrap {
+        width: min(320px, 72vw, 38dvh);
+        height: min(320px, 72vw, 38dvh);
+    }
+
+    #dock {
+        width: min(380px, 88vw);
+    }
+
+    .dock-list {
+        grid-template-columns: 1fr;
+        gap: 9px;
+    }
+
+    .dock-key {
         flex-direction: row;
-        justify-content: space-evenly;
+        justify-content: center;
+        gap: 11px;
+        padding: 12px 18px;
     }
-    .button {
-        margin: 0 1vh;
+
+    .key-icon {
+        width: 17px;
+        height: 17px;
     }
-    nav {
-    width: 75%;
+
+    .key-label {
+        font-size: 12.5px;
+        letter-spacing: 0.15em;
     }
 }
 
-@media (prefers-color-scheme: light) {
-    html {
-        filter: invert(1)
+@media (max-height: 600px) and (orientation: landscape) {
+    #stage {
+        gap: 18px;
+        padding: 16px 28px;
     }
-    .container {
-        backdrop-filter: blur(3px);
-        -webkit-backdrop-filter: blur(3px);
+
+    #emblem-wrap {
+        width: min(300px, 56dvh);
+        height: min(300px, 56dvh);
+    }
+
+    .dock-key {
+        padding: 10px 12px;
     }
 }
-
-
