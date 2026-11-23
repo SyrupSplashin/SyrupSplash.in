@@ -147,8 +147,6 @@ body.is-booting #emblem-wrap {
 #dock {
     width: min(820px, 90vw);
     flex-shrink: 0;
-    transform-style: preserve-3d;
-    perspective: 1100px;
 }
 
 .dock-list {
@@ -157,33 +155,18 @@ body.is-booting #emblem-wrap {
     grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: clamp(10px, 1.5vw, 18px);
     width: 100%;
-    transform-style: preserve-3d;
 }
 
 .dock-slot {
     position: relative;
     width: 100%;
-    transform-style: preserve-3d;
 }
 
-/* Floating Architectural Echo Frame suspended behind each button in Z-space */
-.key-echo {
-    position: absolute;
-    inset: 0;
-    border-radius: 0;
-    border: 1px solid rgba(255, 206, 152, 0.14);
-    background: radial-gradient(circle at 50% 50%, rgba(242, 162, 82, 0.045), transparent 72%);
-    pointer-events: none;
-    will-change: transform, opacity, border-color;
-    transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease;
-}
-
-body.is-booting .key-echo,
 body.is-booting .dock-key {
     opacity: 0;
 }
 
-/* Sleek Compact Squared-Corner Obsidian Button */
+/* Stationary Sleek Squared-Corner Obsidian Button */
 .dock-key {
     --orbit-x: 50%;
     --orbit-y: 0%;
@@ -209,7 +192,6 @@ body.is-booting .dock-key {
     backdrop-filter: blur(14px) saturate(112%);
     -webkit-backdrop-filter: blur(14px) saturate(112%);
     overflow: hidden;
-    will-change: transform, box-shadow;
     transition:
         background 0.36s ease,
         box-shadow 0.4s ease,
@@ -286,7 +268,6 @@ body.is-booting .dock-key {
     transition:
         color 0.3s ease,
         opacity 0.3s ease,
-        transform 0.38s cubic-bezier(0.22, 1, 0.36, 1),
         filter 0.3s ease;
 }
 
@@ -307,18 +288,17 @@ body.is-booting .dock-key {
     white-space: nowrap;
     transition:
         color 0.3s ease,
-        letter-spacing 0.36s cubic-bezier(0.22, 1, 0.36, 1),
         text-shadow 0.3s ease;
 }
 
-/* Hover / Focus Architectural Lock-In State */
+/* Hover / Focus Pure Warm Light State (Zero Movement) */
 .dock-key:hover,
 .dock-key:focus-visible,
 .dock-key.is-hot {
     background:
         linear-gradient(165deg, rgba(34, 30, 34, 0.86) 0%, rgba(16, 14, 18, 0.92) 100%);
     box-shadow:
-        0 24px 46px -16px rgba(0, 0, 0, 0.94),
+        0 18px 36px -16px rgba(0, 0, 0, 0.92),
         0 0 34px -8px rgba(247, 182, 108, 0.36),
         0 0 68px -20px rgba(221, 136, 66, 0.22);
 }
@@ -334,7 +314,6 @@ body.is-booting .dock-key {
 .dock-key.is-hot .key-icon {
     color: #fff5e6;
     opacity: 1;
-    transform: scale(1.07);
     filter: drop-shadow(0 0 10px rgba(255, 200, 132, 0.82));
 }
 
@@ -342,7 +321,6 @@ body.is-booting .dock-key {
 .dock-key:focus-visible .key-label,
 .dock-key.is-hot .key-label {
     color: #fff6ea;
-    letter-spacing: 0.17em;
     text-shadow: 0 0 16px rgba(255, 196, 128, 0.45);
 }
 

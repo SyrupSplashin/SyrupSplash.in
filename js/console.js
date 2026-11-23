@@ -1,15 +1,12 @@
 /* ==========================================================================
-   Weightless Levitation & Perimeter-Light Kinetic Engine
+   Weightless Emblem Levitation & Stationary Button Light Engine
    - Drives continuous multi-harmonic 3D floating on the Swoup emblem + shadow
-   - Drives a clean, level kinetic sculpture animation on the 5 sharp-cornered
-     obsidian links (no button tilting):
+   - Keeps all 5 sharp-cornered buttons completely stationary while animating
+     pure warm light:
      1. Exact-aspect-ratio SVG perimeter light filament orbiting all 4 sharp
-        edges at constant physical velocity
+        edges at constant velocity (expanding to enclose all 4 sides on hover)
      2. Real-time interior glass light cast from the moving perimeter light tip
-     3. Calm, flat planar Z-depth breathing & clean elevation on hover
-     4. Out-of-phase floating architectural echo frame breathing behind in Z
-     5. Hover lock-in: elevates cleanly off its echo frame while the warm
-        perimeter light smoothly expands to enclose all 4 edges
+     3. Shared-coordinate warm proximity spotlight from cursor
    ========================================================================== */
 
 window.SyrupOS = window.SyrupOS || {};
@@ -48,7 +45,6 @@ window.SyrupOS = window.SyrupOS || {};
                 return {
                     slot,
                     el,
-                    echoEl: slot.querySelector('.key-echo'),
                     frameSvg: slot.querySelector('.key-frame'),
                     frameRects: Array.from(slot.querySelectorAll('.key-frame rect')),
                     trailEl: slot.querySelector('.frame-trail'),
@@ -58,13 +54,9 @@ window.SyrupOS = window.SyrupOS || {};
                     hovered: false,
                     hoverSpring: 0,
                     hoverVel: 0,
-                    // Alternating subtle orbital directions & staggered phase offsets
                     dir: i % 2 === 0 ? 1 : -1,
                     orbitProgress: (i * 0.21) % 1,
-                    baseSpeed: 0.115 + (i % 3) * 0.012,
-                    breathPhase: i * 1.26,
-                    magX: 0,
-                    magY: 0
+                    baseSpeed: 0.115 + (i % 3) * 0.012
                 };
             });
 
@@ -211,28 +203,29 @@ window.SyrupOS = window.SyrupOS || {};
                 this.emblemShadow.style.opacity = (0.82 - autoLift * 0.012).toFixed(3);
             }
 
-            this.updateKeys(timeSec, dt, motion);
+            this.updateKeys(dt, motion);
         }
 
-        updateKeys(timeSec, dt, motion) {
+        updateKeys(dt, motion) {
             for (let i = 0; i < this.keyStates.length; i++) {
                 const ks = this.keyStates[i];
                 const el = ks.el;
                 if (!el) continue;
 
+                // Smooth spring for hover light expansion only (zero physical movement)
                 const targetHover = ks.hovered ? 1 : 0;
                 const hAcc = (targetHover - ks.hoverSpring) * 115 - ks.hoverVel * 14.5;
                 ks.hoverVel += hAcc * dt;
                 ks.hoverSpring += ks.hoverVel * dt;
-                const hs = Math.max(0, Math.min(1.15, ks.hoverSpring));
+                const hs = Math.max(0, Math.min(1, ks.hoverSpring));
 
-                // 1. Advance the warm perimeter filament around all 4 sharp edges at constant speed
+                // 1. Orbiting warm perimeter light filament around all 4 sharp edges
                 const speedBoost = 1 + hs * 1.25;
                 ks.orbitProgress = (ks.orbitProgress + ks.dir * ks.baseSpeed * speedBoost * dt * motion + 1) % 1;
 
                 const headPos = ks.orbitProgress * 100;
-                const trailLen = 22 + Math.min(1, hs) * 78;
-                const headLen = 3.2 * (1 - Math.min(1, hs) * 0.55);
+                const trailLen = 22 + hs * 78;
+                const headLen = 3.2 * (1 - hs * 0.55);
 
                 if (ks.trailEl) {
                     const trailOffset = ks.dir > 0 ? (trailLen - headPos) : (-headPos);
@@ -244,68 +237,29 @@ window.SyrupOS = window.SyrupOS || {};
                     const headOffset = ks.dir > 0 ? (headLen - headPos) : (-headPos);
                     ks.headEl.style.strokeDasharray = `${headLen.toFixed(2)} ${(100 - headLen).toFixed(2)}`;
                     ks.headEl.style.strokeDashoffset = headOffset.toFixed(2);
-                    ks.headEl.style.opacity = (0.95 - Math.min(1, hs) * 0.35).toFixed(2);
+                    ks.headEl.style.opacity = (0.95 - hs * 0.35).toFixed(2);
                 }
 
-                // 2. Cast live warm interior light from the exact moving perimeter point
+                // 2. Live warm interior glass light cast from the moving perimeter tip
                 const pt = rectPerimeterPoint(ks.orbitProgress, ks.width, ks.height);
                 el.style.setProperty('--orbit-x', `${pt.x.toFixed(1)}%`);
                 el.style.setProperty('--orbit-y', `${pt.y.toFixed(1)}%`);
 
-                // 3. Calm, flat planar breathing (zero button tilting on desktop or mobile)
-                const depthBreath = Math.sin(timeSec * 0.95 + ks.breathPhase) * 8.0 * motion;
-                const subtleFloatY = Math.sin(timeSec * 0.95 + ks.breathPhase) * 2.2 * motion;
-
-                let targetMagX = 0;
-                let targetMagY = 0;
-
+                // 3. Shared-coordinate warm proximity spotlight from cursor
                 if (this.pointerTarget.active) {
                     const rect = ks.slot.getBoundingClientRect();
                     const lx = this.pointerTarget.clientX - rect.left;
                     const ly = this.pointerTarget.clientY - rect.top;
                     const cx = rect.left + rect.width * 0.5;
                     const cy = rect.top + rect.height * 0.5;
-                    const dx = this.pointerTarget.clientX - cx;
-                    const dy = this.pointerTarget.clientY - cy;
-                    const dist = Math.hypot(dx, dy);
+                    const dist = Math.hypot(this.pointerTarget.clientX - cx, this.pointerTarget.clientY - cy);
                     const prox = Math.max(0, 1 - dist / 220);
 
                     el.style.setProperty('--spot-x', `${lx.toFixed(1)}px`);
                     el.style.setProperty('--spot-y', `${ly.toFixed(1)}px`);
                     el.style.setProperty('--spot-alpha', prox.toFixed(3));
-
-                    if (ks.hovered) {
-                        targetMagX = Math.max(-4, Math.min(4, dx * 0.05));
-                        targetMagY = Math.max(-3, Math.min(3, dy * 0.06));
-                    }
                 } else {
                     el.style.setProperty('--spot-alpha', '0');
-                }
-
-                const magLerp = Math.min(1, dt * 10);
-                ks.magX += (targetMagX - ks.magX) * magLerp;
-                ks.magY += (targetMagY - ks.magY) * magLerp;
-
-                const zMain = 8 + depthBreath + hs * 20;
-                const yMain = subtleFloatY - hs * 3.5 + ks.magY;
-
-                el.style.transform =
-                    `translate3d(${ks.magX.toFixed(2)}px, ${yMain.toFixed(2)}px, ${zMain.toFixed(2)}px)`;
-
-                // 4. Floating double-plane echo frame breathing flat & out-of-phase behind in Z-space
-                if (ks.echoEl) {
-                    const echoOffsetX = (-ks.magX * 0.45) * motion;
-                    const echoOffsetY = (-subtleFloatY * 0.75 - ks.magY * 0.45) * motion;
-                    const echoScaleX = 0.98 + Math.cos(timeSec * 0.95 + ks.breathPhase) * 0.018 + hs * 0.05;
-                    const echoScaleY = 0.95 + Math.cos(timeSec * 0.95 + ks.breathPhase) * 0.03 + hs * 0.12;
-                    const echoZ = -18 - hs * 10;
-
-                    ks.echoEl.style.transform =
-                        `translate3d(${echoOffsetX.toFixed(2)}px, ${echoOffsetY.toFixed(2)}px, ${echoZ.toFixed(2)}px) ` +
-                        `scale(${echoScaleX.toFixed(4)}, ${echoScaleY.toFixed(4)})`;
-                    ks.echoEl.style.borderColor = hs > 0.15
-                        ? `rgba(255, 206, 148, ${(0.18 + hs * 0.34).toFixed(3)})`
-                        : `rgba(255, 206, 152, ${(0.1 + (Math.sin(timeSec * 0.95 + ks.breathPhase) * 0.5 + 0.5) * 0.12).toFixed(3)})`;
                 }
             }
         }
